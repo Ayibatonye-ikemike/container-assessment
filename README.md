@@ -1,39 +1,52 @@
 # MuchTodo Containerization & Kubernetes Modernization
 
-This project involves the containerization and orchestration of the MuchTodo backend application as part of the Month 2 DevOps assessment.
+This repository contains the complete containerization and orchestration solution for the MuchTodo backend application, fulfilling the Month 2 DevOps assessment requirements.
 
-## Project Overview
-- **Application**: Golang-based API (MuchTodo).
-- **Database**: MongoDB.
-- **Infrastructure**: Local Kubernetes cluster using Kind.
+## 🛠 Project Components
+1. **Docker**: Multi-stage Dockerfile optimized for security and size.
+2. **Docker Compose**: Local development environment with MongoDB and API.
+3. **Kubernetes**: Full orchestration including Deployments, Services (NodePort), and Ingress.
+4. **Automation**: Bash scripts for seamless environment management.
 
-## Key Features
-- **Multi-stage Docker Build**: Optimized image size and security by running as a non-root `techuser`.
-- **Kubernetes Orchestration**: Deployment manifests for high availability (2 replicas for backend).
-- **Automation**: Custom shell scripts for cluster creation, deployment, and cleanup.
+---
 
-## How to Run
+## 🚀 Deployment Instructions
 
-### 1. Prerequisites
-Ensure you have Docker and Kind installed on your system.
+### 1. Local Development (Docker Compose)
+To run the application locally without Kubernetes:
+```bash
+sudo ./scripts/docker-run.sh
+```
+- **Access**: The API will be available at `http://localhost:8080
 
-### 2. Deployment
-Run the automated deployment script:
+### 2. Kubernetes Deployment (Kind)
+To deploy the full stack to a Kind cluster:
 ```bash
 sudo ./scripts/k8s-deploy.sh
 ```
+This script handles:
+- Cluster creation.
+- Namespace isolation (`muchtodo-ns`).
+- Persistent storage for MongoDB.
+- Backend deployment with 2 replicas.
 
-### 3. Verification
-Check the status of the resources:
+### 3. Cleanup
+To destroy the Kubernetes resources:
 ```bash
-kubectl get all -n muchtodo-ns
+sudo ./scripts/k8s-cleanup.sh
 ```
 
-Test the API connectivity:
-```bash
-kubectl port-forward service/backend-service 8080:8080 -n muchtodo-ns
-curl http://localhost:8080/health
-```
+---
 
-## Evidence
-Screenshots documenting successful deployment and database connectivity can be found in the `evidence/` directory.
+## 📂 Repository Structure
+- `evidence/`: Screenshots of successful builds and deployments.
+- `kubernetes/`: YAML manifests for all K8s resources.
+- `scripts/`: Automation utilities.
+- `Dockerfile`: Optimized multi-stage build.
+
+## ✅ Verification Evidence
+The `evidence/` folder contains the following mandatory verification:
+- **Docker build completion**.
+- **Docker Compose status and health check**.
+- **Kind cluster creation**.
+- **Kubernetes pod, service, and ingress status**.
