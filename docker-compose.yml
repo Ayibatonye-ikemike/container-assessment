@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: muchtodo-db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+  backend:
+    image: muchtodo-backend:latest
+    container_name: muchtodo-api
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./config.env:/home/techuser/.env
+    environment:
+      - PORT=8080
+      - MONGO_URI=mongodb://admin:password@mongodb:27017
+      - DB_NAME=muchtodo
+      - JWT_SECRET_KEY=StartupTech_2026_Secret
+    depends_on:
+      - mongodb
+    restart: always
+volumes:
+  mongo_data:

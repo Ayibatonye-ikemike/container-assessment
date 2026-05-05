@@ -1,0 +1,8 @@
+.git
+bin/
+obj/
+vendor/
+evidence/
+scripts/
+*.pem
+.env
